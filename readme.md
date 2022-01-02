@@ -1,3 +1,3 @@
 # KenHttpServer
 
-一个简单但五脏俱全的Java实现的Http请求处理服务。
+一个简单的基于java语言技术栈实现的支持Http协议的服务器应用程序。
