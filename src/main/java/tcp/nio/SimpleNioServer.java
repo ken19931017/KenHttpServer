@@ -3,9 +3,11 @@ package tcp.nio;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -32,6 +34,17 @@ public class SimpleNioServer {
                         while (iter.hasNext()) {
                               SelectionKey key = iter.next();
                               ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
+                              SocketChannel socketChannel = serverSocketChannel.accept();
+                              ByteBuffer buffer = ByteBuffer.allocate(1024);
+                              int count = socketChannel.read(buffer);
+                              if(count==-1){
+                                    return;
+                              }
+                              buffer.flip();
+                              byte[] bytes = new byte[buffer.remaining()];
+                              buffer.get(bytes);
+                              String body = new String(bytes).trim();
+                              System.out.println(body);
                               iter.remove();
                         }
                    }
